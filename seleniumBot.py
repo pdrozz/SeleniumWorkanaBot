@@ -23,7 +23,6 @@ def buildJson(elementsTitles,elementsDescription,elementsValues):
         body=str(body).replace("\n"," ")
 
         json+=body
-
         count+=1
 
         if(count==len(elementsTitles)):
