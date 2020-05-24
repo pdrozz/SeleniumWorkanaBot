@@ -49,10 +49,13 @@ def writeJson(json):
     finally:
         f.close()
 
+
+
 def cleanUrl(url):
+    url+=url.replace(' ',"")
     url+=url.replace("\n","")
     url+=url.replace('"',"")
-    url+=url.replace(' ',"")
+    
     return url
 
 def printGettingStart():
