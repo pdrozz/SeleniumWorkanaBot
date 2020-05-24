@@ -14,9 +14,9 @@ def buildJson(elementsTitles,elementsDescription,elementsValues):
     json='{"data":['
     count=0
     for title in elementsTitles:
-        name='"name":"{0}",'.format(title.text)
+        name='"name":"{0}",'.format(cleanText(title.text))
         value='"value":"{0}",'.format(elementsValues[count].text)
-        description='"desc":"{0}",'.format(elementsDescription[count].text)
+        description='"desc":"{0}",'.format(cleanText(elementsDescription[count].text))
         link='"link":"{0}"'.format(title.find_element(By.TAG_NAME,"a").get_attribute("href"))
 
         body="{"+name+value+description+link+"}"
@@ -49,17 +49,21 @@ def writeJson(json):
     finally:
         f.close()
 
+def cleanText(text):
+    text=text.replace('"'," ")
+    text=text.replace('\n',"  ")
+    return text
+
 
 
 def cleanUrl(url):
-    url+=url.replace(' ',"")
     url+=url.replace("\n","")
     url+=url.replace('"',"")
-    
+    url+=url.replace(' ',"")
     return url
 
 def printGettingStart():
-    print("Example workana url")
+    print("\nExample workana url")
     print("https://www.workana.com/jobs?category=it-programming\n")
 
 
@@ -76,7 +80,7 @@ def start():
 
         titles = driver.find_elements(By.CSS_SELECTOR,classTitulos)
         values=driver.find_elements(By.CLASS_NAME,classValues)
-        descriptions=driver.find_elements(By.CSS_SELECTOR,classDescription)
+        descriptions=driver.find_elements(By.CSS_SELECTOR,classDescription)   
 
         json=buildJson(titles,values,descriptions)
         writeJson(json)
