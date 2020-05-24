@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from datetime import date
 from os import listdir
 
-url='https://www.workana.com/jobs?category=it-programming&subcategory=mobile-development&language=en%2Cpt#page=1'
+url='https://www.workana.com/jobs?category=it-programming'
 
 classTitulos='.project-item .project-title'
 classValues="values"
@@ -50,9 +50,22 @@ def writeJson(json):
     finally:
         f.close()
 
+def cleanUrl(url):
+    url+=url.replace("\n","")
+    url+=url.replace('"',"")
+    return url
+
+def printGettingStart():
+    print("Example workana url")
+    print("https://www.workana.com/jobs?category=it-programming\n")
+
 
 def start():
     try:
+        printGettingStart()
+        url=str(input("Write the workana url:  "))
+        url=cleanUrl(url)
+
         path="driver/chromedriver.exe"
         driver=webdriver.Chrome(path)
 
