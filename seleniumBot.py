@@ -1,6 +1,7 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from datetime import date
 
 
 url='https://www.workana.com/jobs?category=it-programming&subcategory=mobile-development&language=en%2Cpt#page=1'
@@ -29,4 +30,22 @@ def buildJson(elementsTitles,elementsDescription,elementsValues):
             json+=","
     return json
 
-        
+def writeJson(filename,json):
+    try:
+        f=open("projectsJson/",filename,".json","w")
+        f.write(json)
+    except Exception as identifier:
+        print("Error to write json file")
+        print(str(identifier))
+    finally:
+        f.close()
+
+def writeJson(json):
+    try:
+        f=open("projectsJson/",str(date.today()),".json","w")
+        f.write(json)
+    except Exception as identifier:
+        print("Error to write json file")
+        print(str(identifier))
+    finally:
+        f.close()
