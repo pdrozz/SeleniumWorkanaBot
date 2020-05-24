@@ -2,7 +2,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import date
-
+from os import listdir
 
 url='https://www.workana.com/jobs?category=it-programming&subcategory=mobile-development&language=en%2Cpt#page=1'
 
@@ -49,3 +49,26 @@ def writeJson(json):
         print(str(identifier))
     finally:
         f.close()
+
+def start():
+    try:
+        path="driver/chromedriver.exe"
+        driver=webdriver.Chrome(path)
+    except Exception as identifier:
+        print("chromeDriver path is wrong")
+
+start()
+def locateDriver():
+    path="driver"
+    lstFile=listdir("driver")
+    for f in lstFile:
+        if(f.endswith(".exe") & f.lower().startswith("chromedriver")):
+            print("ChromeDriver locate in driver/",str(f), "\n Starting it...")
+            return path,"/",str(f)
+    return "driver"
+
+
+#driverPath=str(input("Your chrome driver path: "))
+#driverPath+=driverPath.replace('"',"")
+
+#driver=webdriver.Chrome(driverPath)
