@@ -16,59 +16,57 @@ def buildJson(elementsTitles,elementsDescription,elementsValues):
     for title in elementsTitles:
         name='"name":"{0}",'.format(title.text)
         value='"value":"{0}",'.format(elementsValues[count].text)
-        description='"desc",'.format(elementsDescription[count].text)
+        description='"desc":"{0}",'.format(elementsDescription[count].text)
         link='"link":"{0}"'.format(title.find_element(By.TAG_NAME,"a").get_attribute("href"))
 
-        body="{",name,value,description,link,"}"
-        body+=body.replace("\n"," ")
+        body="{"+name+value+description+link+"}"
+        body=str(body).replace("\n"," ")
+
+        json+=body
 
         count+=1
 
         if(count==len(elementsTitles)):
-            json+="]}'"
+            json+="]}"
         elif(count<len(elementsTitles)):
             json+=","
     return json
 
 def writeJson(filename,json):
     try:
-        f=open("projectsJson/",filename,".json","w")
+        f=open("projectsJson/"+filename+".json","w")
         f.write(json)
     except Exception as identifier:
-        print("Error to write json file")
+        print(str(identifier))
+    finally:
+        f.close()
+   
+def writeJson(json):
+    try:
+        f=open("projectsJson/"+str(date.today())+".json","w")
+        f.write(json)
+    except Exception as identifier:
         print(str(identifier))
     finally:
         f.close()
 
-def writeJson(json):
-    try:
-        f=open("projectsJson/",str(date.today()),".json","w")
-        f.write(json)
-    except Exception as identifier:
-        print("Error to write json file")
-        print(str(identifier))
-    finally:
-        f.close()
 
 def start():
     try:
         path="driver/chromedriver.exe"
         driver=webdriver.Chrome(path)
+
+        driver.get(url)
+
+        titles = driver.find_elements(By.CSS_SELECTOR,classTitulos)
+        values=driver.find_elements(By.CLASS_NAME,classValues)
+        descriptions=driver.find_elements(By.CSS_SELECTOR,classDescription)
+
+        json=buildJson(titles,values,descriptions)
+        writeJson(json)
+
     except Exception as identifier:
-        print("chromeDriver path is wrong")
+        print("error as ",str(identifier))
 
 start()
-def locateDriver():
-    path="driver"
-    lstFile=listdir("driver")
-    for f in lstFile:
-        if(f.endswith(".exe") & f.lower().startswith("chromedriver")):
-            print("ChromeDriver locate in driver/",str(f), "\n Starting it...")
-            return path,"/",str(f)
-    return "driver"
 
-
-#driverPath=str(input("Your chrome driver path: "))
-#driverPath+=driverPath.replace('"',"")
-
-#driver=webdriver.Chrome(driverPath)
