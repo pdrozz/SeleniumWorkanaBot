@@ -14,8 +14,19 @@ def buildJson(elementsTitles,elementsDescription,elementsValues):
     count=0
     for title in elementsTitles:
         name='"name":"{0}",'.format(title.text)
-        value='"value":"{0}",'.format(elementsValue[count].text)
+        value='"value":"{0}",'.format(elementsValues[count].text)
         description='"desc",'.format(elementsDescription[count].text)
         link='"link":"{0}"'.format(title.find_element(By.TAG_NAME,"a").get_attribute("href"))
+
+        body="{",name,value,description,link,"}"
+        body+=body.replace("\n"," ")
+
+        count+=1
+
+        if(count==len(elementsTitles)):
+            json+="]}'"
+        elif(count<len(elementsTitles)):
+            json+=","
+    return json
 
         
