@@ -52,6 +52,7 @@ def writeJson(json):
 def cleanUrl(url):
     url+=url.replace("\n","")
     url+=url.replace('"',"")
+    url+=url.replace(' ',"")
     return url
 
 def printGettingStart():
